@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Sistema de Biblioteca</title>
+    <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <h2>📚 Biblioteca</h2>
+        <ul>
+            <li onclick="mostrarSeccion('dashboard')">Dashboard</li>
+            <li onclick="mostrarSeccion('libros')">Libros</li>
+            <li onclick="mostrarSeccion('usuarios')">Usuarios</li>
+            <li onclick="mostrarSeccion('prestamos')">Préstamos</li>
+        </ul>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+
+        <header>
+            <h1>Sistema de Gestión</h1>
+            <span>Admin</span>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section id="dashboard" class="seccion activa">
+            <div class="cards">
+                <div class="card">
+                    <h3>Libros</h3>
+                    <p id="totalLibros">0</p>
+                </div>
+                <div class="card">
+                    <h3>Usuarios</h3>
+                    <p id="totalUsuarios">0</p>
+                </div>
+                <div class="card">
+                    <h3>Préstamos</h3>
+                    <p id="totalPrestamos">0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIBROS -->
+        <section id="libros" class="seccion">
+            <h2>Libros</h2>
+
+            <div class="form-inline">
+                <input type="text" id="titulo" placeholder="Título">
+                <input type="text" id="autor" placeholder="Autor">
+                <button onclick="agregarLibro()">Guardar</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Autor</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaLibros"></tbody>
+            </table>
+        </section>
+
+        <!-- USUARIOS -->
+        <section id="usuarios" class="seccion">
+            <h2>Usuarios</h2>
+
+            <div class="form-inline">
+                <input type="text" id="nombreUsuario" placeholder="Nombre">
+                <button onclick="agregarUsuario()">Guardar</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaUsuarios"></tbody>
+            </table>
+        </section>
+
+        <!-- PRÉSTAMOS -->
+        <section id="prestamos" class="seccion">
+            <h2>Préstamos</h2>
+
+            <div class="form-inline">
+                <select id="selectUsuario"></select>
+                <select id="selectLibro"></select>
+                <button onclick="agregarPrestamo()">Registrar</button>
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Libro</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaPrestamos"></tbody>
+            </table>
+        </section>
+
+    </div>
+</div>
+
+<!-- TOAST -->
+<div id="toastContainer" class="toast-container"></div>
+
+<script src="admin.js"></script>
+</body>
+</html>
