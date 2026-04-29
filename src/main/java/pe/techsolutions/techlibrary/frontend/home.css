@@ -1,17 +1,27 @@
-body {
+/* ===== RESET ===== */
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     font-family: 'Segoe UI', sans-serif;
-    background: #f4f6f9;
+    background: #0f172a;
+    color: #f1f5f9;
 }
 
 /* HEADER */
 .header {
-    background: #1e293b;
-    color: white;
-    padding: 15px;
+    width: 100%;
+    background: #020617;
+    padding: 15px 25px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .header input {
@@ -20,108 +30,132 @@ body {
     border: none;
 }
 
-/* BIENVENIDA */
-.bienvenida {
-    padding: 20px;
-}
-
-/* CATEGORÍAS */
-.categorias {
-    padding: 20px;
-}
-
-.categoria-lista button {
-    margin-right: 10px;
+button {
     padding: 8px 12px;
     border: none;
-    background: #2563eb;
+    background: #e50914;
     color: white;
     border-radius: 6px;
     cursor: pointer;
 }
 
-.categoria-lista button:hover {
-    background: #1d4ed8;
+/* CONTENEDOR */
+.container-main {
+    max-width: 1200px;
+    margin: auto;
 }
 
-/* LIBROS */
-.libros {
+/* SECCIONES */
+section {
     padding: 20px;
 }
 
+/* GRID */
 .grid-libros {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 20px;
 }
 
-/* CARD */
+/* ===== NETFLIX CARD ===== */
 .card {
-    background: white;
+    position: relative;
+    height: 260px;
     border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.card-content {
+    position: absolute;
+    bottom: 0;
     padding: 15px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 0.3s;
 }
 
-.card:hover {
-    transform: scale(1.05);
+.card:hover img {
+    transform: scale(1.1);
 }
 
-.card h3 {
-    margin: 0;
+.card:hover::before {
+    opacity: 1;
 }
 
-.card p {
-    color: #555;
+.card:hover .card-content {
+    opacity: 1;
+    transform: translateY(0);
 }
 
-.card button {
-    margin-top: 10px;
-    padding: 6px 10px;
-    background: #16a34a;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.oculto {
-    display: none;
-}
-
-.detalle {
-    padding: 20px;
-}
-
+/* DETALLE */
 .detalle-card {
-    background: white;
+    background: #1e293b;
     padding: 20px;
     border-radius: 10px;
-    max-width: 400px;
+    max-width: 500px;
 }
 
-.detalle-card button {
-    margin-top: 15px;
-    padding: 10px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
+.detalle-card img {
+    width: 100%;
+    margin-bottom: 10px;
 }
 
-.seccion {
-    padding: 20px;
-}
-
+/* TABLA */
 table {
     width: 100%;
-    background: white;
-    border-collapse: collapse;
+    background: #1e293b;
+    border-radius: 10px;
 }
 
 th, td {
     padding: 10px;
-    border-bottom: 1px solid #ddd;
+}
+
+/* TOAST */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+}
+
+.toast {
+    background: #16a34a;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 6px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: 0.3s;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* UTIL */
+.oculto {
+    display: none;
+}
+
+.categoria-lista button.activo {
+    background: #e50914;
+    color: white;
 }

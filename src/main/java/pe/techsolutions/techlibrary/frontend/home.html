@@ -2,14 +2,14 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>TechLibrary</title>
+    <title>Biblioteca Virtual</title>
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
 
 <!-- HEADER -->
 <header class="header">
-    <h1>📚 TechLibrary</h1>
+    <h1>📚 Biblioteca Virtual</h1>
 
     <div>
         <input type="text" id="busqueda" placeholder="Buscar libros..." onkeyup="buscarLibro()">
@@ -17,60 +17,65 @@
     </div>
 </header>
 
-<!-- BIENVENIDA -->
-<section class="bienvenida">
-    <h2>Bienvenido</h2>
-    <p>Explora libros disponibles en nuestra biblioteca</p>
-</section>
+<div class="container-main">
 
-<!-- CATEGORÍAS -->
-<section class="categorias">
-    <h2>Categorías</h2>
-    <div class="categoria-lista">
-        <button onclick="filtrarCategoria('Todos')">Todos</button>
-        <button onclick="filtrarCategoria('Novela')">Novela</button>
-        <button onclick="filtrarCategoria('Tecnología')">Tecnología</button>
-        <button onclick="filtrarCategoria('Historia')">Historia</button>
-    </div>
-</section>
+    <!-- BIENVENIDA -->
+    <section class="bienvenida">
+        <h2>Bienvenido</h2>
+        <p>Explora libros disponibles en nuestra biblioteca digital</p>
+    </section>
 
-<!-- LIBROS -->
-<section class="libros">
-    <h2>Catálogo</h2>
-    <div id="contenedorLibros" class="grid-libros"></div>
-</section>
+    <!-- CATEGORÍAS -->
+    <section class="categorias">
+        <h2>Categorías</h2>
+        <div class="categoria-lista">
+            <button onclick="filtrarCategoria('Todos')">Todos</button>
+            <button onclick="filtrarCategoria('Novela')">Novela</button>
+            <button onclick="filtrarCategoria('Tecnología')">Tecnología</button>
+            <button onclick="filtrarCategoria('Historia')">Historia</button>
+        </div>
+    </section>
 
-<!-- DETALLE -->
-<section id="detalleLibro" class="detalle oculto">
-    <button onclick="volver()">⬅ Volver</button>
+    <!-- LIBROS -->
+    <section class="libros">
+        <h2>Catálogo</h2>
+        <div id="contenedorLibros" class="grid-libros"></div>
+    </section>
 
-    <div class="detalle-card">
-        <h2 id="dTitulo"></h2>
-        <p id="dAutor"></p>
-        <p id="dCategoria"></p>
-        <p id="dDescripcion"></p>
+    <!-- DETALLE -->
+    <section id="detalleLibro" class="detalle oculto">
+        <button onclick="volver()">⬅ Volver</button>
 
-        <button id="btnAccion"></button>
-    </div>
-</section>
+        <div class="detalle-card">
+            <img id="dImagen">
+            <h2 id="dTitulo"></h2>
+            <p id="dAutor"></p>
+            <p id="dCategoria"></p>
+            <p id="dDescripcion"></p>
 
-<!-- MIS RESERVAS -->
-<section id="misPrestamos" class="seccion oculto">
-    <button onclick="volverInicio()">⬅ Volver</button>
+            <button id="btnAccion"></button>
+        </div>
+    </section>
 
-    <h2>Mis Reservas</h2>
+    <!-- MIS RESERVAS -->
+    <section id="misPrestamos" class="seccion oculto">
+        <button onclick="volverInicio()">⬅ Volver</button>
 
-    <table>
-        <thead>
-            <tr>
-                <th>Libro</th>
-                <th>Fecha reserva</th>
-                <th>Acción</th>
-            </tr>
-        </thead>
-        <tbody id="tablaMisPrestamos"></tbody>
-    </table>
-</section>
+        <h2>Mis Reservas</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Libro</th>
+                    <th>Fecha reserva</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody id="tablaMisPrestamos"></tbody>
+        </table>
+    </section>
+
+</div>
 
 <!-- TOAST -->
 <div id="toastContainer" class="toast-container"></div>

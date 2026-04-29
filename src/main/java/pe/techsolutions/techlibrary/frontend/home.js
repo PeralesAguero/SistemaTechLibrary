@@ -4,46 +4,29 @@ let libros = [
         titulo: "El Quijote",
         autor: "Cervantes",
         categoria: "Novela",
-        descripcion: "Una obra clásica de la literatura española",
-        disponible: true
+        descripcion: "Clásico de la literatura",
+        imagen: "https://picsum.photos/200/300?1"
     },
     {
         titulo: "JavaScript Pro",
         autor: "Juan Perez",
         categoria: "Tecnología",
-        descripcion: "Aprende JS avanzado",
-        disponible: false
+        descripcion: "Aprende JS",
+        imagen: "https://picsum.photos/200/300?2"
     },
     {
         titulo: "Historia del Perú",
         autor: "Maria Lopez",
         categoria: "Historia",
-        descripcion: "Historia completa del Perú",
-        disponible: true
+        descripcion: "Historia completa",
+        imagen: "https://picsum.photos/200/300?3"
     }
 ];
 
 let categoriaActual = "Todos";
 let misReservas = [];
 
-// ================= TOAST =================
-function mostrarToast(mensaje, tipo = "success") {
-    let container = document.getElementById("toastContainer");
-
-    let toast = document.createElement("div");
-    toast.className = `toast ${tipo}`;
-    toast.textContent = mensaje;
-
-    container.appendChild(toast);
-
-    setTimeout(() => toast.classList.add("show"), 100);
-
-    setTimeout(() => {
-        toast.remove();
-    }, 3000);
-}
-
-// ================= RENDER =================
+// ================= RENDER LIBROS =================
 function renderLibros(lista) {
     let contenedor = document.getElementById("contenedorLibros");
     contenedor.innerHTML = "";
@@ -51,16 +34,18 @@ function renderLibros(lista) {
     lista.forEach((libro, index) => {
         contenedor.innerHTML += `
         <div class="card">
-            <h3>${libro.titulo}</h3>
-            <p>${libro.autor}</p>
-            <small>${libro.categoria}</small>
-            <br>
-            <button onclick="verDetalle(${index})">Ver</button>
+            <img src="${libro.imagen}" alt="libro">
+
+            <div class="card-content">
+                <h3>${libro.titulo}</h3>
+                <p>${libro.autor}</p>
+                <button onclick="verDetalle(${index})">Ver</button>
+            </div>
         </div>`;
     });
 }
 
-// ================= BUSCAR =================
+// ================= BUSCAR + FILTRAR =================
 function buscarLibro() {
     let texto = document.getElementById("busqueda").value.toLowerCase();
 
@@ -72,9 +57,18 @@ function buscarLibro() {
     renderLibros(filtrados);
 }
 
-// ================= FILTRO =================
+// ================= FILTRAR CATEGORÍA =================
 function filtrarCategoria(cat) {
     categoriaActual = cat;
+
+    // marcar botón activo (opcional)
+    document.querySelectorAll(".categoria-lista button")
+        .forEach(btn => btn.classList.remove("activo"));
+
+    if (event && event.target) {
+        event.target.classList.add("activo");
+    }
+
     buscarLibro();
 }
 
@@ -82,13 +76,13 @@ function filtrarCategoria(cat) {
 function verDetalle(index) {
     let libro = libros[index];
 
+    document.getElementById("dImagen").src = libro.imagen;
     document.getElementById("dTitulo").textContent = libro.titulo;
     document.getElementById("dAutor").textContent = "Autor: " + libro.autor;
     document.getElementById("dCategoria").textContent = "Categoría: " + libro.categoria;
     document.getElementById("dDescripcion").textContent = libro.descripcion;
 
     let btn = document.getElementById("btnAccion");
-
     btn.textContent = "Reservar";
     btn.onclick = () => reservarLibro(index);
 
@@ -102,11 +96,6 @@ function volver() {
     document.getElementById("detalleLibro").classList.add("oculto");
 }
 
-// ================= FECHAS =================
-function obtenerFechaActual() {
-    return new Date().toLocaleDateString();
-}
-
 // ================= RESERVAR =================
 function reservarLibro(index) {
     let libro = libros[index];
@@ -117,15 +106,14 @@ function reservarLibro(index) {
 
     misReservas.push({
         titulo: libro.titulo,
-        fechaReserva: obtenerFechaActual()
+        fecha: new Date().toLocaleDateString()
     });
 
     mostrarToast("Reserva realizada", "success");
-
     volver();
 }
 
-// ================= RENDER RESERVAS =================
+// ================= MIS RESERVAS =================
 function renderMisReservas() {
     let tabla = document.getElementById("tablaMisPrestamos");
     tabla.innerHTML = "";
@@ -135,21 +123,21 @@ function renderMisReservas() {
         return;
     }
 
-    misReservas.forEach((r, index) => {
+    misReservas.forEach((r, i) => {
         tabla.innerHTML += `
         <tr>
             <td>${r.titulo}</td>
-            <td>${r.fechaReserva}</td>
+            <td>${r.fecha}</td>
             <td>
-                <button onclick="cancelarReserva(${index})">Cancelar</button>
+                <button onclick="cancelarReserva(${i})">Cancelar</button>
             </td>
         </tr>`;
     });
 }
 
 // ================= CANCELAR =================
-function cancelarReserva(index) {
-    misReservas.splice(index, 1);
+function cancelarReserva(i) {
+    misReservas.splice(i, 1);
     renderMisReservas();
     mostrarToast("Reserva cancelada", "success");
 }
@@ -166,6 +154,18 @@ function irMisPrestamos() {
 function volverInicio() {
     document.querySelector(".libros").style.display = "block";
     document.getElementById("misPrestamos").classList.add("oculto");
+}
+
+// ================= TOAST =================
+function mostrarToast(msg, tipo = "success") {
+    let t = document.createElement("div");
+    t.className = `toast ${tipo}`;
+    t.textContent = msg;
+
+    document.getElementById("toastContainer").appendChild(t);
+
+    setTimeout(() => t.classList.add("show"), 100);
+    setTimeout(() => t.remove(), 3000);
 }
 
 // ================= INICIAL =================
