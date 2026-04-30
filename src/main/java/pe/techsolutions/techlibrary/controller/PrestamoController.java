@@ -17,4 +17,13 @@ public class PrestamoController {
                             @RequestParam Long libroId) {
         return prestamoService.prestar(usuarioId, libroId);
     }
+    @GetMapping("/usuario/{usuarioId}")
+public List<Prestamo> listarPorUsuario(@PathVariable Long usuarioId) {
+    return prestamoService.listarPorUsuario(usuarioId);
 }
+@DeleteMapping("/{id}")
+    public void eliminar(@PathVariable Long id) {
+        prestamoService.eliminar(id);
+    }
+}
+

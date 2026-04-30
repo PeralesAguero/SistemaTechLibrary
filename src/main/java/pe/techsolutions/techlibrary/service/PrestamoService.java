@@ -6,6 +6,7 @@ import pe.techsolutions.techlibrary.model.*;
 import pe.techsolutions.techlibrary.repository.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class PrestamoService {
@@ -43,5 +44,23 @@ public class PrestamoService {
         prestamo.setFechaDevolucion(LocalDate.now().plusDays(7));
 
         return prestamoRepository.save(prestamo);
+    }
+
+    public List<Prestamo> listarPorUsuario(Long usuarioId) {
+        return prestamoRepository.findByUsuarioId(usuarioId);
+    }
+
+    public void eliminar(Long id) {
+        Prestamo prestamo = prestamoRepository.findById(id).orElse(null);
+
+        if (prestamo == null) {
+            throw new RuntimeException("Préstamo no encontrado");
+        }
+
+        Libro libro = prestamo.getLibro();
+        libro.setCantidadDisponible(libro.getCantidadDisponible() + 1);
+        libroRepository.save(libro);
+
+        prestamoRepository.deleteById(id);
     }
 }

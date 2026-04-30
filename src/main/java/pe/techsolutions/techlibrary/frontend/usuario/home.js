@@ -1,8 +1,16 @@
 // ================= DATOS =================
 let libros = [];
+let categoriaActual = "Todos";
+let libroActualIndex = null;
 
+// ================= INICIAL =================
+document.addEventListener("DOMContentLoaded", () => {
+    cargarLibrosDesdeAPI();
+});
+
+// ================= LIBROS =================
 function cargarLibrosDesdeAPI() {
-    fetch("http://localhost:8080/libros")
+    fetch("http://localhost:8080/api/libros")
         .then(res => res.json())
         .then(data => {
             libros = data;
@@ -11,16 +19,6 @@ function cargarLibrosDesdeAPI() {
         .catch(error => console.error("Error cargando libros:", error));
 }
 
-let categoriaActual = "Todos";
-let misReservas = [];
-let libroActualIndex = null;
-
-// ================= INICIAL =================
-document.addEventListener("DOMContentLoaded", () => {
-    cargarLibrosDesdeAPI();
-});
-
-// ================= RENDER LIBROS =================
 function renderLibros(lista) {
     let contenedor = document.getElementById("contenedorLibros");
     contenedor.innerHTML = "";
@@ -73,7 +71,6 @@ function verDetalle(index) {
     btn.style.display = "inline-block";
     btn.onclick = () => reservarLibro(index);
 
-    // 🔥 CARGAR COMENTARIOS DESDE BD
     cargarComentarios(libro.id);
 
     document.querySelector(".libros").style.display = "none";
@@ -84,15 +81,8 @@ function verDetalle(index) {
 function reservarLibro(index) {
     let libro = libros[index];
 
-    fetch("http://localhost:8080/prestamos", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-            libroId: libro.id,
-            usuarioId: 1 // temporal
-        })
+    fetch(`http://localhost:8080/api/prestamos?usuarioId=1&libroId=${libro.id}`, {
+        method: "POST"
     })
     .then(res => res.json())
     .then(() => {
@@ -103,39 +93,56 @@ function reservarLibro(index) {
     });
 }
 
-// ================= MIS RESERVAS (LOCAL POR AHORA) =================
+// ================= MIS RESERVAS (REAL BD) =================
 function irMisPrestamos() {
     document.querySelector(".libros").style.display = "none";
     document.getElementById("detalleLibro").classList.add("oculto");
     document.getElementById("misPrestamos").classList.remove("oculto");
 
-    renderMisReservas();
+    cargarMisReservas();
 }
 
-function renderMisReservas() {
+function cargarMisReservas() {
+    fetch("http://localhost:8080/api/prestamos/usuario/1")
+        .then(res => res.json())
+        .then(data => {
+            renderMisReservas(data);
+        })
+        .catch(err => console.error(err));
+}
+
+function renderMisReservas(reservas) {
     let tabla = document.getElementById("tablaMisPrestamos");
     tabla.innerHTML = "";
 
-    if (misReservas.length === 0) {
+    if (!reservas || reservas.length === 0) {
         tabla.innerHTML = `<tr><td colspan="3">No tienes reservas</td></tr>`;
         return;
     }
 
-    misReservas.forEach((r, i) => {
+    reservas.forEach(r => {
         tabla.innerHTML += `
         <tr>
-            <td>${r.titulo}</td>
-            <td>${r.fecha}</td>
+            <td>${r.libroId}</td>
+            <td>${r.fecha || "Sin fecha"}</td>
             <td>
-                <button onclick="cancelarReserva(${i})">Cancelar</button>
+                <button onclick="cancelarReserva(${r.id})">Cancelar</button>
             </td>
         </tr>`;
     });
 }
 
-function cancelarReserva(i) {
-    misReservas.splice(i, 1);
-    renderMisReservas();
+function cancelarReserva(id) {
+    fetch(`http://localhost:8080/api/prestamos/${id}`, {
+        method: "DELETE"
+    })
+    .then(() => {
+        cargarMisReservas();
+        mostrarToast("Reserva cancelada", "success");
+    })
+    .catch(() => {
+        mostrarToast("Error al cancelar", "error");
+    });
 }
 
 // ================= COMENTARIOS =================
@@ -155,7 +162,7 @@ function agregarComentario() {
         body: JSON.stringify({
             texto: texto,
             libroId: libro.id,
-            usuarioId: 1 // temporal
+            usuarioId: 1
         })
     })
     .then(res => res.json())
@@ -218,5 +225,3 @@ function mostrarToast(msg, tipo = "success") {
     setTimeout(() => t.classList.add("show"), 100);
     setTimeout(() => t.remove(), 3000);
 }
-
-// ================= INICIAL =================
