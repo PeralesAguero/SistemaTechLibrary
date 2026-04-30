@@ -1,85 +1,95 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Biblioteca Virtual</title>
+    <title> TechLibrary</title>
     <link rel="stylesheet" href="home.css">
 </head>
+
 <body>
 
-<!-- HEADER -->
-<header class="header">
-    <h1>📚 Biblioteca Virtual</h1>
+    <!-- HEADER -->
+    <header class="header">
+        <h1>📚 TechLibrary</h1>
 
-    <div>
-        <input type="text" id="busqueda" placeholder="Buscar libros..." onkeyup="buscarLibro()">
-        <button onclick="irMisPrestamos()">Mis Reservas</button>
+        <div>
+            <input type="text" id="busqueda" placeholder="Buscar libros..." onkeyup="buscarLibro()">
+            <button onclick="irMisPrestamos()">Mis Reservas</button>
+        </div>
+    </header>
+
+    <div class="container-main">
+
+        <!-- BIENVENIDA -->
+        <section class="bienvenida">
+            <h2>Bienvenido</h2>
+            <p>Explora libros disponibles en nuestra biblioteca digital</p>
+        </section>
+
+        <!-- CATEGORÍAS -->
+        <section class="categorias">
+            <h2>Categorías</h2>
+            <div class="categoria-lista">
+                <button onclick="filtrarCategoria('Todos')">Todos</button>
+                <button onclick="filtrarCategoria('Novela')">Novela</button>
+                <button onclick="filtrarCategoria('Tecnología')">Tecnología</button>
+                <button onclick="filtrarCategoria('Historia')">Historia</button>
+            </div>
+        </section>
+
+        <!-- LIBROS -->
+        <section class="libros">
+            <h2>Catálogo</h2>
+            <div id="contenedorLibros" class="grid-libros"></div>
+        </section>
+
+        <!-- DETALLE -->
+        <section id="detalleLibro" class="detalle oculto">
+            <button onclick="volver()">⬅ Volver</button>
+
+            <div class="detalle-card">
+                <img id="dImagen">
+                <h2 id="dTitulo"></h2>
+                <p id="dAutor"></p>
+                <p id="dCategoria"></p>
+                <p id="dDescripcion"></p>
+                <button id="btnAccion"></button>
+                <div style="margin-top:15px;">
+                    <button onclick="agregarComentario()">Realizar comentario</button>
+                </div>
+
+                <input id="inputComentario" placeholder="Escribe tu comentario..." />
+
+                <div id="listaComentarios" style="margin-top:10px;"></div>
+            </div>
+
+        </section>
+
+        <!-- MIS RESERVAS -->
+        <section id="misPrestamos" class="seccion oculto">
+            <button onclick="volverInicio()">⬅ Volver</button>
+
+            <button onclick="irMisPrestamos()">Mis Reservas</button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Libro</th>
+                        <th>Fecha reserva</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody id="tablaMisPrestamos"></tbody>
+            </table>
+        </section>
+
     </div>
-</header>
 
-<div class="container-main">
+    <!-- TOAST -->
+    <div id="toastContainer" class="toast-container"></div>
 
-    <!-- BIENVENIDA -->
-    <section class="bienvenida">
-        <h2>Bienvenido</h2>
-        <p>Explora libros disponibles en nuestra biblioteca digital</p>
-    </section>
-
-    <!-- CATEGORÍAS -->
-    <section class="categorias">
-        <h2>Categorías</h2>
-        <div class="categoria-lista">
-            <button onclick="filtrarCategoria('Todos')">Todos</button>
-            <button onclick="filtrarCategoria('Novela')">Novela</button>
-            <button onclick="filtrarCategoria('Tecnología')">Tecnología</button>
-            <button onclick="filtrarCategoria('Historia')">Historia</button>
-        </div>
-    </section>
-
-    <!-- LIBROS -->
-    <section class="libros">
-        <h2>Catálogo</h2>
-        <div id="contenedorLibros" class="grid-libros"></div>
-    </section>
-
-    <!-- DETALLE -->
-    <section id="detalleLibro" class="detalle oculto">
-        <button onclick="volver()">⬅ Volver</button>
-
-        <div class="detalle-card">
-            <img id="dImagen">
-            <h2 id="dTitulo"></h2>
-            <p id="dAutor"></p>
-            <p id="dCategoria"></p>
-            <p id="dDescripcion"></p>
-
-            <button id="btnAccion"></button>
-        </div>
-    </section>
-
-    <!-- MIS RESERVAS -->
-    <section id="misPrestamos" class="seccion oculto">
-        <button onclick="volverInicio()">⬅ Volver</button>
-
-        <h2>Mis Reservas</h2>
-
-        <table>
-            <thead>
-                <tr>
-                    <th>Libro</th>
-                    <th>Fecha reserva</th>
-                    <th>Acción</th>
-                </tr>
-            </thead>
-            <tbody id="tablaMisPrestamos"></tbody>
-        </table>
-    </section>
-
-</div>
-
-<!-- TOAST -->
-<div id="toastContainer" class="toast-container"></div>
-
-<script src="home.js"></script>
+    <script src="home.js"></script>
 </body>
+
 </html>

@@ -159,3 +159,10 @@ th, td {
     background: #e50914;
     color: white;
 }
+
+.comentario {
+    background: #1e293b;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 5px;
+}
